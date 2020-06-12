@@ -28,14 +28,21 @@
 
     <main>
       <article>
-        <section>
-          <button id="copy">Copy</button>
-          <input placeholder="Type someting ..." />
+        <section class="input">
+          <textarea
+            id="input__field"
+            class="input__field"
+            placeholder="Type someting ..."
+          >
+          </textarea>
         </section>
-        <section>
-          <h3>Preview:</h3>
-          <p id="preview">
-            Some deck name
+        <section class="preview">
+          <div class="preview__title">
+            <h3>Preview</h3>
+            <button id="preview__copy"></button>
+          </div>
+          <p id="preview__content" class="preview__content">
+            ...
           </p>
         </section>
       </article>
@@ -54,5 +61,6 @@
         Report an issue
       </a>
     </footer>
+    <script type="text/javascript" src="./script.js"></script>
   </body>
 </html>

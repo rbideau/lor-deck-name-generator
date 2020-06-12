@@ -6,7 +6,7 @@
   "description": "Deck name generator for Legends of Runeterra",
   "main": "index.js",
   "scripts": {
-    "start": "light-server --serve ./public/ --port 4000 --watchexp \"public/*\""
+    "start": "light-server --serve . --port 4000 --watchexp \"*.css,*.html,*.js\""
   },
   "devDependencies": {
     "light-server": "^2.7.0"

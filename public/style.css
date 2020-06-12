@@ -1,0 +1,68 @@
+@font-face {
+  font-family: "rotordemo";
+  src: url("./fonts/rotor-demo-webfont.woff2") format("woff2"),
+    url("/fonts/rotor-demo-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+*,
+body {
+  color: #dfd6c3;
+  font-family: "rotordemo", Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: #472f30;
+  text-align: center;
+  padding: 1rem;
+  border-bottom: 2px solid #b7996f;
+  position: relative;
+  box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.5);
+}
+
+footer {
+  background-color: #472f30;
+  text-align: center;
+  padding: 1rem;
+  border-top: 2px solid #b7996f;
+  position: relative;
+  box-shadow: 0px -4px 3px rgba(0, 0, 0, 0.5);
+}
+
+main {
+  background-color: #382016;
+  background: linear-gradient(#382016, #343434);
+  padding: 1rem;
+  flex-grow: 1;
+}
+
+main article {
+  display: flex;
+}
+main article section {
+  flex-grow: 1;
+}
+
+#preview {
+  border-radius: 5px;
+  background-color: #211e1e;
+  margin-top: 0.5rem;
+  padding: 1rem;
+}
+
+button {
+  background-color: #9c6939;
+  border-radius: 5px;
+  border: 2px solid #1d1b1b;
+  text-transform: uppercase;
+  padding: 0.25rem;
+  color: #d5d0c4;
+}

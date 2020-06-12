@@ -1,0 +1,22 @@
+{
+  "name": "lor-deck-name-generator",
+  "author": "r.bideau",
+  "license": "ISC",
+  "version": "1.0.0",
+  "description": "Deck name generator for Legends of Runeterra",
+  "main": "index.js",
+  "scripts": {
+    "start": "light-server --serve ./public/ --port 4000 --watchexp \"public/*\""
+  },
+  "devDependencies": {
+    "light-server": "^2.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rbideau/lor-deck-name-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rbideau/lor-deck-name-generator/issues"
+  },
+  "homepage": "https://rbideau.github.io/lor-deck-name-generator/"
+}

@@ -22,37 +22,11 @@ previewCopyBtn.addEventListener("click", () => {
   );
 });
 
-// Picker: bold
-document.getElementById("picker__bold").addEventListener("click", () => {
-  const cursorPosition = getCursorPosition(inputField);
-  inputField.value = cursorPosition.hasOwnProperty("start")
-    ? wrapeTextSelectionWithTag("<b>", "</b>", cursorPosition, inputField.value)
-    : wrapeTextSelectionWithTag(
-        "<b>",
-        "</b>",
-        { start: cursorPosition.position, end: inputField.value.length },
-        inputField.value
-      );
-
-  inputField.dispatchEvent(new Event("input"));
-  inputField.focus();
-});
-
-// Picker: italic
-document.getElementById("picker__italic").addEventListener("click", () => {
-  const cursorPosition = getCursorPosition(inputField);
-  inputField.value = cursorPosition.hasOwnProperty("start")
-    ? wrapeTextSelectionWithTag("<i>", "</i>", cursorPosition, inputField.value)
-    : wrapeTextSelectionWithTag(
-        "<i>",
-        "</i>",
-        { start: cursorPosition.position, end: inputField.value.length },
-        inputField.value
-      );
-
-  inputField.dispatchEvent(new Event("input"));
-  inputField.focus();
-});
+// Add simple Pickers
+addPickerListener("picker__bold", "<b>", "</b>");
+addPickerListener("picker__italic", "<i>", "</i>");
+addPickerListener("picker__underscore", "<s>", "</s>");
+addPickerListener("picker__strikeThrough", "<u>", "</u>");
 
 // utlis
 
@@ -93,6 +67,36 @@ function insertTagAtPosition(tag, position, text) {
   );
 }
 
+function addPickerListener(selector, openingTag, closingTag = null) {
+  document.getElementById(selector).addEventListener("click", () => {
+    const cursorPosition = getCursorPosition(inputField);
+    if (closingTag) {
+      inputField.value = cursorPosition.hasOwnProperty("start")
+        ? wrapeTextSelectionWithTag(
+            openingTag,
+            closingTag,
+            cursorPosition,
+            inputField.value
+          )
+        : wrapeTextSelectionWithTag(
+            openingTag,
+            closingTag,
+            { start: cursorPosition.position, end: inputField.value.length },
+            inputField.value
+          );
+    } else {
+      inputField.value = insertTagAtPosition(
+        openingTag,
+        cursorPosition.position,
+        inputField.value
+      );
+    }
+
+    inputField.dispatchEvent(new Event("input"));
+    inputField.focus();
+  });
+}
+
 function textMeshRichTextToHtml(text) {
   // http://digitalnativestudios.com/textmeshpro/docs/rich-text/
   return (
@@ -103,5 +107,11 @@ function textMeshRichTextToHtml(text) {
       // italic
       .replaceAll("<i>", '<span style="font-style: italic">')
       .replaceAll("</i>", "</span>")
+      // strikethrough 
+      .replaceAll("<s>", '<span style="font-decoration: line-through">')
+      .replaceAll("</s>", "</span>")
+      // underline
+      .replaceAll("<u>", '<span style="font-decoration: underline">')
+      .replaceAll("</u>", "</span>")
   );
 }

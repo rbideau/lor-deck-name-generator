@@ -1,4 +1,6 @@
 const clickOutsideNodeWatch = [];
+let hasPopoverOpen = false;
+let lastPosition = null;
 const inputField = document.getElementById("input__field");
 const previewCopyBtn = document.getElementById("preview__copy");
 const previewContent = document.getElementById("preview__content");
@@ -81,7 +83,7 @@ const pickr = Pickr.create({
 });
 pickr.on("save", function () {
   const color = pickr.getColor().toHEXA().join("").toUpperCase();
-  const openingTag = `<color=#${color}>`;
+  const openingTag = `<#${color}>`; // color= is optionnal, save caractere !
   const closingTag = ""; // to decrease caractere count, no closing tag
   const cursorPosition = getCursorPosition(inputField, true);
   inputField.value = wrapeTextSelectionWithTag(
@@ -154,6 +156,31 @@ document
     closeAllPopover();
   });
 
+// Sprit popover
+addPopover({
+  triggerId: "picker__sprite",
+  contentId: "picker__sprite__popover",
+  onOpen: function () {},
+});
+const picker__sprite__list = document.getElementById("picker__sprite__list");
+for (let i = 0; i <= 46; i++) {
+  let sprite = document.createElement("span");
+  sprite.className = `sprite sprite-${i}`;
+  sprite.addEventListener("click", function () {
+    const cursorPosition = getCursorPosition(inputField);
+    const tag = `<sprite=${i}>`;
+    inputField.value = insertTagAtPosition(
+      tag,
+      cursorPosition.start || cursorPosition.position,
+      inputField.value
+    );
+    inputField.dispatchEvent(new Event("input"));
+    inputField.focus();
+    closeAllPopover();
+  });
+  picker__sprite__list.appendChild(sprite);
+}
+
 // utlis
 
 /**
@@ -164,6 +191,11 @@ document
  * @param forceSelection Force the position to select from the corsor to the end of the text
  */
 function getCursorPosition(elem, forceSelection) {
+  if (hasPopoverOpen) {
+    // sometime, opening a popover loses focus on the textera and mess with the position
+    return lastPosition;
+  }
+
   const start = elem.selectionStart;
   const end = elem.selectionEnd;
 
@@ -249,7 +281,7 @@ function textMeshRichTextToHtml(text) {
       .replace(/<sub>/g, '<span style="vertical-align: sub">')
       .replace(/<\/sub>/g, "</span>")
       // color
-      .replace(/<color=(#[A-Z0-9]{6})>/g, function (match, color) {
+      .replace(/<(#[A-Z0-9]{6})>/g, function (match, color) {
         return `<span style="color: ${color}">`;
       })
       .replace(/<\/color>/g, "</span>")
@@ -264,6 +296,10 @@ function textMeshRichTextToHtml(text) {
         return `<span style="letter-spacing: ${spacing}">`;
       })
       .replace(/<\/mspace>/g, "</span>")
+      // sprite
+      .replace(/<sprite=([0-9]+)>/g, function (match, spriteId) {
+        return `<span class="sprite__container"><span class="sprite sprite-${spriteId}"></span></span>`;
+      })
   );
 }
 
@@ -276,18 +312,24 @@ function addPopover({ triggerId, contentId, onOpen }) {
 }
 function openPopover(content, onOpen) {
   return function openPopoverListener() {
-    closeAllPopover();
+    closeAllPopover(inputField, true);
+    lastPosition = getCursorPosition(inputField, true); // false because all
+    hasPopoverOpen = true;
     content.style.display = "block";
     onOpen();
   };
 }
 function closeAllPopover() {
-  document.querySelectorAll(".popover").forEach(function (elem) {
-    elem.style.display = "none";
-  });
+  if (hasPopoverOpen) {
+    document.querySelectorAll(".popover").forEach(function (elem) {
+      elem.style.display = "none";
+    });
+    hasPopoverOpen = false;
+  }
 }
 document.addEventListener("click", function (event) {
   if (
+    hasPopoverOpen &&
     event.target &&
     !clickOutsideNodeWatch.some((node) => node.contains(event.target))
   ) {

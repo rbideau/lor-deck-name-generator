@@ -48,9 +48,9 @@
             <h3>Preview</h3>
             <button id="preview__copy"></button>
           </div>
-          <p id="preview__content" class="preview__content">
+          <div id="preview__content" class="preview__content">
             ...
-          </p>
+          </div>
         </section>
         <section class="picker">
           <p>Click a button to style around selection:</p>
@@ -103,9 +103,14 @@
             <button id="picker__monoSpacing__apply">Apply</button>
           </div>
           <p>Insert at cursor:</p>
-          <button id="picker__sprit">
-            icon (TODO)
+          <button id="picker__sprite">
+            icon
           </button>
+          <div class="popover" id="picker__sprite__popover">
+            <div id="picker__sprite__list" class="picker__sprite__list">
+              <!-- sprite inserted via js-->
+            </div>
+          </div>
         </section>
         <section class="infos">
           Advices:
@@ -117,6 +122,9 @@
             <li>Nested colors doesn't work</li>
             <li>
               Too much styling doesn't work in LoR (around 50 total caracters)
+            </li>
+            <li>
+              Preview of icons not totally accurate
             </li>
           </ul>
         </section>

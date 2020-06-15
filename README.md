@@ -5,6 +5,7 @@ For [Legends of Runeterra](https://playruneterra.com/)
 ## Infos
 
 - [this reddit post](https://old.reddit.com/r/LegendsOfRuneterra/comments/gtwb00/psa_you_can_use_html_codes_for_formatting_deck/)
+- TextMesh rich text [documentation](http://digitalnativestudios.com/textmeshpro/docs/rich-text/)
 
 ## Libs
 

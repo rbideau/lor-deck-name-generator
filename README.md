@@ -15,3 +15,10 @@ For [Legends of Runeterra](https://playruneterra.com/)
 1. `npm install`
 2. `npm run start`
 3. Go to [http://localhost:4000](http://localhost:4000)
+
+## TODOs
+
+- undo/redo
+- many buttons
+- warn when selection start or end in a balise
+- TU ?

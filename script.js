@@ -31,6 +31,8 @@ addPickerListener("picker__bold", "<b>", "</b>");
 addPickerListener("picker__italic", "<i>", "</i>");
 addPickerListener("picker__underscore", "<u>", "</u>");
 addPickerListener("picker__strikeThrough", "<s>", "</s>");
+addPickerListener("picker__superscript", "<sup>", "</sup>");
+addPickerListener("picker__subscript", "<sub>", "</sub>");
 
 // Color picker
 // Simple example, see optional options for more configuration.
@@ -189,7 +191,7 @@ function wrapeTextSelectionWithTag(openTag, closeTag, selection, text) {
     text.substring(0, selection.start) +
     openTag +
     text.substring(selection.start, selection.end) +
-    closeTag+
+    closeTag +
     text.substring(selection.end, text.length)
   );
 }
@@ -240,6 +242,12 @@ function textMeshRichTextToHtml(text) {
       // underline
       .replace(/<u>/g, '<span style="text-decoration: underline">')
       .replace(/<\/u>/g, "</span>")
+      // super-script
+      .replace(/<sup>/g, '<span style="vertical-align: super">')
+      .replace(/<\/sup>/g, "</span>")
+      // sub-script
+      .replace(/<sub>/g, '<span style="vertical-align: sub">')
+      .replace(/<\/sub>/g, "</span>")
       // color
       .replace(/<color=(#[A-Z0-9]{6})>/g, function (match, color) {
         return `<span style="color: ${color}">`;

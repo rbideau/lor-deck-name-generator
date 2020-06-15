@@ -22,6 +22,6 @@ For [Legends of Runeterra](https://playruneterra.com/)
 - undo/redo
 - many buttons
 - warn when selection start or end in a balise
-- TU ?
 - remove style (all or only some balise)
 - mobile
+- samples

@@ -32,7 +32,7 @@ body {
 	line-height: 1;
 }
 ol, ul {
-	list-style: none;
+	/* list-style: none; I like list-style*/
 }
 blockquote, q {
 	quotes: none;

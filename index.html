@@ -11,6 +11,10 @@
     <meta name="author" content="r.bideau" />
     <link rel="stylesheet" type="text/css" href="./reset.css" />
     <link rel="stylesheet" type="text/css" href="./style.css" />
+
+    <!-- https://github.com/Simonwep/pickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/> <!-- 'classic' theme -->
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
   </head>
 
   <body>
@@ -45,7 +49,7 @@
           </p>
         </section>
         <section class="picker">
-          <p>Click button to style selection or whole text: </p>
+          <p>Click a button to style to selection or from cursor: </p>
           <button id="picker__bold">
             <span style="font-weight: bold;">Bold</span>
           </button>
@@ -61,7 +65,7 @@
             >
           </button>
           <button id="picker_color">
-            Color (TODO)
+            Color
           </button>
           <button id="picker_opacity">
             Opacity (TODO)
@@ -75,6 +79,19 @@
           <button id="picker_sprit">
             Insert icon at cursor position (TODO)
           </button>
+        </section>
+        <section class="infos">
+          <p>
+            Advices:
+            <ul>
+              <li>Write all your text then add style</li>
+            </ul>
+            Disclaimer:
+            <ul>
+              <li>Nested colors doesn't work</li>
+              <li>Too much styling doesn't work</li>
+            </ul>
+          </p>
         </section>
       </article>
     </main>

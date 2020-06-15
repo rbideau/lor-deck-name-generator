@@ -9,6 +9,7 @@ For [Legends of Runeterra](https://playruneterra.com/)
 ## Libs
 
 - [light-server](https://www.npmjs.com/package/light-server): a light-weight http server with watch/livereload for local dev
+- [Picker](https://github.com/Simonwep/pickr): color picker
 
 ## Local dev
 
@@ -22,3 +23,5 @@ For [Legends of Runeterra](https://playruneterra.com/)
 - many buttons
 - warn when selection start or end in a balise
 - TU ?
+- remove style (all or only some balise)
+- mobile

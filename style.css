@@ -55,7 +55,7 @@ main article {
   gap: 1em 1em;
   grid-template-areas:
     "input preview"
-    "picker .";
+    "picker infos";
 }
 .input {
   grid-area: input;
@@ -66,6 +66,9 @@ main article {
 }
 .picker {
   grid-area: picker;
+}
+.infos {
+  grid-area: infos;
 }
 
 /* ------ */

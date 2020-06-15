@@ -13,7 +13,11 @@
     <link rel="stylesheet" type="text/css" href="./style.css" />
 
     <!-- https://github.com/Simonwep/pickr -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/> <!-- 'classic' theme -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"
+    />
+    <!-- 'classic' theme -->
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
   </head>
 
@@ -49,7 +53,7 @@
           </p>
         </section>
         <section class="picker">
-          <p>Click a button to style to selection or from cursor: </p>
+          <p>Click a button to style around selection:</p>
           <button id="picker__bold">
             <span style="font-weight: bold;">Bold</span>
           </button>
@@ -60,38 +64,53 @@
             <span style="text-decoration: underline;">Underscore</span>
           </button>
           <button id="picker__strikeThrough">
-            <span style="text-decoration: line-through;"
-              >Strike-through</span
-            >
+            <span style="text-decoration: line-through;">Strike-through</span>
           </button>
-          <button id="picker_color">
+          <p>Click a button to style from cursor:</p>
+          <button id="picker__color">
             Color
           </button>
-          <button id="picker_opacity">
-            Opacity (TODO)
+          <button id="picker__opacity">
+            Opacity
           </button>
-          <button id="picker_characterSpacing">
-            Character Spacing (TODO)
+          <div class="popover" id="picker__opacity__popover">
+            <input
+              type="range"
+              id="picker__opacity__range"
+              name="picker__opacity__range"
+              min="0"
+              max="255"
+            />
+            <button id="picker__opacity__apply">Apply</button>
+          </div>
+          <button id="picker__monoSpacing">
+            Additional space between caracteres
           </button>
-          <button id="picker_mspace">
-            Monospacing (TODO)
-          </button>
-          <button id="picker_sprit">
-            Insert icon at cursor position (TODO)
+          <div class="popover" id="picker__monoSpacing__popover">
+            <input
+              type="range"
+              id="picker__monoSpacing__range"
+              name="picker__monoSpacing__range"
+              min="0"
+              max="100"
+            />
+            <button id="picker__monoSpacing__apply">Apply</button>
+          </div>
+          <p>Insert at cursor:</p>
+          <button id="picker__sprit">
+            icon (TODO)
           </button>
         </section>
         <section class="infos">
-          <p>
-            Advices:
-            <ul>
-              <li>Write all your text then add style</li>
-            </ul>
-            Disclaimer:
-            <ul>
-              <li>Nested colors doesn't work</li>
-              <li>Too much styling doesn't work</li>
-            </ul>
-          </p>
+          Advices:
+          <ul>
+            <li>Write all your text then add style</li>
+          </ul>
+          Disclaimer:
+          <ul>
+            <li>Nested colors doesn't work</li>
+            <li>Too much styling doesn't work in LoR (around 50 total caracters)</li>
+          </ul>
         </section>
       </article>
     </main>

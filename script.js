@@ -1,3 +1,4 @@
+const clickOutsideNodeWatch = [];
 const inputField = document.getElementById("input__field");
 const previewCopyBtn = document.getElementById("preview__copy");
 const previewContent = document.getElementById("preview__content");
@@ -12,6 +13,8 @@ inputField.addEventListener("input", () => {
 // Copy
 previewCopyBtn.innerHTML = "Copy";
 previewCopyBtn.addEventListener("click", () => {
+  // Looks like LoR client doesn't accepte closing alpha
+  const lorNamr = inputField.value.replace(/<\/alpha>/g, "<alpha=#FF>");
   navigator.clipboard.writeText(inputField.value).then(
     function () {
       previewCopyBtn.innerHTML = "Copied !";
@@ -32,7 +35,7 @@ addPickerListener("picker__strikeThrough", "<s>", "</s>");
 // Color picker
 // Simple example, see optional options for more configuration.
 const pickr = Pickr.create({
-  el: "#picker_color",
+  el: "#picker__color",
   useAsButton: true,
   lockOpacity: true,
   theme: "classic", // or 'monolith', or 'nano'
@@ -75,46 +78,109 @@ const pickr = Pickr.create({
   },
 });
 pickr.on("save", function () {
-  const color = "#" + pickr.getColor().toHEXA().join("").toUpperCase();
-  const cursorPosition = getCursorPosition(inputField);
-  const openingTag = `<color=${color}>`;
-  const closingTag = "</color>";
-  inputField.value = cursorPosition.hasOwnProperty("start")
-    ? wrapeTextSelectionWithTag(
-        openingTag,
-        closingTag,
-        cursorPosition,
-        inputField.value
-      )
-    : wrapeTextSelectionWithTag(
-        openingTag,
-        closingTag,
-        { start: cursorPosition.position, end: inputField.value.length },
-        inputField.value
-      );
+  const color = pickr.getColor().toHEXA().join("").toUpperCase();
+  const openingTag = `<color=#${color}>`;
+  const closingTag = ""; // to decrease caractere count, no closing tag
+  const cursorPosition = getCursorPosition(inputField, true);
+  inputField.value = wrapeTextSelectionWithTag(
+    openingTag,
+    closingTag,
+    cursorPosition,
+    inputField.value
+  );
   inputField.dispatchEvent(new Event("input"));
   inputField.focus();
 });
+
+// Opacity popover
+addPopover({
+  triggerId: "picker__opacity",
+  contentId: "picker__opacity__popover",
+  onOpen: function () {
+    document.getElementById("picker__opacity__range").value = 255;
+  },
+});
+document
+  .getElementById("picker__opacity__apply")
+  .addEventListener("click", function () {
+    // TextMesh use hexa for opacity
+    const opacity = parseInt(
+      document.getElementById("picker__opacity__range").value
+    )
+      .toString(16)
+      .toUpperCase();
+    const openingTag = `<alpha=#${opacity}>`;
+    const closingTag = ""; // to decrease caractere count, no closing tag
+    const cursorPosition = getCursorPosition(inputField, true);
+    inputField.value = wrapeTextSelectionWithTag(
+      openingTag,
+      closingTag,
+      cursorPosition,
+      inputField.value
+    );
+    inputField.dispatchEvent(new Event("input"));
+    inputField.focus();
+    closeAllPopover();
+  });
+
+// Monospaceing popover
+addPopover({
+  triggerId: "picker__monoSpacing",
+  contentId: "picker__monoSpacing__popover",
+  onOpen: function () {
+    document.getElementById("picker__monoSpacing__range").value = 0;
+  },
+});
+document
+  .getElementById("picker__monoSpacing__apply")
+  .addEventListener("click", function () {
+    const spacing = (
+      parseInt(document.getElementById("picker__monoSpacing__range").value) /
+      100
+    ).toFixed(2);
+    const openingTag = `<mspace=${spacing}em>`;
+    const closingTag = "</mspace>";
+    const cursorPosition = getCursorPosition(inputField, true);
+    inputField.value = wrapeTextSelectionWithTag(
+      openingTag,
+      closingTag,
+      cursorPosition,
+      inputField.value
+    );
+    inputField.dispatchEvent(new Event("input"));
+    inputField.focus();
+    closeAllPopover();
+  });
+
 // utlis
 
 /**
  * Returns:
  * - an object with {start, end} when there is a selected text
  * - an object with {position} otherwise. If the texte has not been focus, the position is at the start
+ * @param elem The target element to get the cursor position from
+ * @param forceSelection Force the position to select from the corsor to the end of the text
  */
-function getCursorPosition(elem) {
+function getCursorPosition(elem, forceSelection) {
   const start = elem.selectionStart;
   const end = elem.selectionEnd;
 
   // Check if you've selected text
-  if (start === end) {
+  if (start === end && !forceSelection) {
     if (start === elem.value.length) {
       return { position: 0 };
     } else {
       return { position: start };
     }
   } else {
-    return { start, end };
+    if (start !== end) {
+      return { start, end };
+    } else {
+      return {
+        start: start,
+        end: (inputField.value || "").length,
+      };
+    }
   }
 }
 
@@ -123,7 +189,7 @@ function wrapeTextSelectionWithTag(openTag, closeTag, selection, text) {
     text.substring(0, selection.start) +
     openTag +
     text.substring(selection.start, selection.end) +
-    closeTag +
+    closeTag+
     text.substring(selection.end, text.length)
   );
 }
@@ -136,25 +202,19 @@ function insertTagAtPosition(tag, position, text) {
 
 function addPickerListener(selector, openingTag, closingTag = null) {
   document.getElementById(selector).addEventListener("click", () => {
-    const cursorPosition = getCursorPosition(inputField);
     if (closingTag) {
-      inputField.value = cursorPosition.hasOwnProperty("start")
-        ? wrapeTextSelectionWithTag(
-            openingTag,
-            closingTag,
-            cursorPosition,
-            inputField.value
-          )
-        : wrapeTextSelectionWithTag(
-            openingTag,
-            closingTag,
-            { start: cursorPosition.position, end: inputField.value.length },
-            inputField.value
-          );
+      const cursorPosition = getCursorPosition(inputField, true);
+      inputField.value = wrapeTextSelectionWithTag(
+        openingTag,
+        closingTag,
+        cursorPosition,
+        inputField.value
+      );
     } else {
+      const cursorPosition = getCursorPosition(inputField);
       inputField.value = insertTagAtPosition(
         openingTag,
-        cursorPosition.position,
+        cursorPosition.start || cursorPosition.position,
         inputField.value
       );
     }
@@ -185,5 +245,44 @@ function textMeshRichTextToHtml(text) {
         return `<span style="color: ${color}">`;
       })
       .replace(/<\/color>/g, "</span>")
+      // opacity
+      .replace(/<alpha=#([A-Z0-9]{2})>/g, function (match, opacityHex) {
+        const opacity = parseInt(opacityHex, 16) / 255;
+        return `<span style="opacity: ${opacity}">`;
+      })
+      .replace(/<\/alpha>/g, "</span>")
+      // monospacing
+      .replace(/<mspace=([0-9\.]{1,}em)>/g, function (match, spacing) {
+        return `<span style="letter-spacing: ${spacing}">`;
+      })
+      .replace(/<\/mspace>/g, "</span>")
   );
 }
+
+function addPopover({ triggerId, contentId, onOpen }) {
+  const trigger = document.getElementById(triggerId);
+  const content = document.getElementById(contentId);
+  clickOutsideNodeWatch.push(trigger);
+  clickOutsideNodeWatch.push(content);
+  trigger.addEventListener("click", openPopover(content, onOpen));
+}
+function openPopover(content, onOpen) {
+  return function openPopoverListener() {
+    closeAllPopover();
+    content.style.display = "block";
+    onOpen();
+  };
+}
+function closeAllPopover() {
+  document.querySelectorAll(".popover").forEach(function (elem) {
+    elem.style.display = "none";
+  });
+}
+document.addEventListener("click", function (event) {
+  if (
+    event.target &&
+    !clickOutsideNodeWatch.some((node) => node.contains(event.target))
+  ) {
+    closeAllPopover();
+  }
+});

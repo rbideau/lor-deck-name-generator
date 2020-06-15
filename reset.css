@@ -32,7 +32,8 @@ body {
 	line-height: 1;
 }
 ol, ul {
-	/* list-style: none; I like list-style*/
+  /* list-style: none; I like list-style*/
+  padding-left: 13px;
 }
 blockquote, q {
 	quotes: none;

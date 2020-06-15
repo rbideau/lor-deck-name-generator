@@ -116,3 +116,13 @@ button {
   padding: 0.25rem;
   color: #d5d0c4;
 }
+
+.popover {
+  display: none;
+  position: absolute;
+  border: 1px solid #b7996f;
+  border-radius: 5px;
+  padding: 3px;
+  box-shadow: -2px -2px 1px rgba(0, 0, 0, 0.5);
+  background-color: #343434;
+}

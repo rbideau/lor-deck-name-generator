@@ -28,3 +28,4 @@ For [Legends of Runeterra](https://playruneterra.com/)
 - warn when over 50 characters
 - try to use short color code when possible
 - Fix text selection with popup
+- clear text

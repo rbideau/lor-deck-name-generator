@@ -83,8 +83,8 @@ const pickr = Pickr.create({
 });
 pickr.on("save", function () {
   const color = pickr.getColor().toHEXA().join("").toUpperCase();
-  const openingTag = `<#${color}>`; // color= is optionnal, save caractere !
-  const closingTag = ""; // to decrease caractere count, no closing tag
+  const openingTag = `<#${color}>`; // color= is optionnal, save charactere !
+  const closingTag = ""; // to decrease charactere count, no closing tag
   const cursorPosition = getCursorPosition(inputField, true);
   inputField.value = wrapeTextSelectionWithTag(
     openingTag,
@@ -114,7 +114,7 @@ document
       .toString(16)
       .toUpperCase();
     const openingTag = `<alpha=#${opacity}>`;
-    const closingTag = ""; // to decrease caractere count, no closing tag
+    const closingTag = ""; // to decrease charactere count, no closing tag
     const cursorPosition = getCursorPosition(inputField, true);
     inputField.value = wrapeTextSelectionWithTag(
       openingTag,
@@ -162,10 +162,14 @@ addPopover({
   contentId: "picker__sprite__popover",
   onOpen: function () {},
 });
+const unrealsedRegionSpritId = [22, 23, 24, 25, 26, 38, 39, 40, 41, 42];
 const picker__sprite__list = document.getElementById("picker__sprite__list");
 for (let i = 0; i <= 46; i++) {
   let sprite = document.createElement("span");
   sprite.className = `sprite sprite-${i}`;
+  if (unrealsedRegionSpritId.includes(i)) {
+    sprite.className += ` sprite-newregion`;
+  }
   sprite.addEventListener("click", function () {
     const cursorPosition = getCursorPosition(inputField);
     const tag = `<sprite=${i}>`;
@@ -180,6 +184,16 @@ for (let i = 0; i <= 46; i++) {
   });
   picker__sprite__list.appendChild(sprite);
 }
+const picker__sprite__enableSpoiler = document.getElementById(
+  "picker__sprite__enableSpoiler"
+);
+picker__sprite__enableSpoiler.addEventListener("change", function () {
+  document.querySelectorAll(".sprite-newregion").forEach((elem) => {
+    elem.style.display = picker__sprite__enableSpoiler.checked
+      ? "block"
+      : "none";
+  });
+});
 
 // utlis
 

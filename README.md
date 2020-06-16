@@ -21,8 +21,10 @@ For [Legends of Runeterra](https://playruneterra.com/)
 ## TODOs
 
 - undo/redo
-- many buttons
 - warn when selection start or end in a balise
 - remove style (all or only some balise)
-- mobile
+- mobile css
 - samples
+- warn when over 50 characters
+- try to use short color code when possible
+- Fix text selection with popup
